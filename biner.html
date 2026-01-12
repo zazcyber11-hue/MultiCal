@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Kalkulator Basis Biner</title>
+</head>
+<body>
+    <header class="p-4 w-full shadow-sm bg-white top-0 justify-between flex">
+        <h1 class="font-bold text-xl bg-gradient-to-l from-orange-500 from-43% to-black bg-clip-text text-transparent">Multi<span class="text-orange-500">Cal</span></h1>
+        <a href="hitung.html" class="text-slate-500 text-sm hover:scale-110 hover:text-orange-500 transition"><< Kembali</a>
+    </header>
+
+    <section class="flex items-center justify-center min-h-screen bg-gray-100">
+        <div class="bg-white shadow-lg p-6 rounded-xl w-full max-w-md">
+        <h1 class="text-center font-medium text-lg mb-4">Kalkulator Basis Biner</h1>
+
+        <input id="display" type="text" disabled value="0"
+            class="w-full mb-3 p-2 text-right text-xl border border-slate-300 rounded-lg bg-slate-50" />
+
+        <div class="grid grid-cols-2 gap-2 mb-2">
+            <button onclick="hapus()"
+                class="border border-slate-100 bg-slate-50 text-orange-500 cursor-pointer">C</button>
+            <button onclick="backspace()"
+                class="border border-slate-100 bg-slate-50 text-orange-500 cursor-pointer">⌫</button>
+            <button onclick="tekan('1')" class="border border-slate-100 bg-slate-50 cursor-pointer">1</button>
+            <button onclick="tekan('0')" class="border border-slate-100 bg-slate-50 cursor-pointer">0</button>
+
+        </div>
+
+        <div class="grid grid-cols-4 gap-2 mb-2">
+            <button onclick="tekan('/')"
+                class="border border-slate-100 bg-slate-50 text-orange-500 cursor-pointer">+</button>
+            <button onclick="tekan('*')"
+                class="border border-slate-100 bg-slate-50 text-orange-500 cursor-pointer">x</button>
+            <button onclick="tekan('-')"
+                class="border border-slate-100 bg-slate-50 text-orange-500 cursor-pointer">-</button>
+            <button onclick="tekan('+')"
+                class="border border-slate-100 bg-slate-50 text-orange-500 cursor-pointer">+</button>
+        </div>
+
+        <div class="grid grid-cols-1">
+            <button onclick="hitung()"
+                class="border border-slate-100 bg-slate-50 text-orange-500 cursor-pointer">=</button>
+        </div>
+
+        <div class="mt-4">
+            <h2 class="text-sm font-medium mb-1">History</h2>
+            <ul id="history" class="text-sm max-h-24 overflow-y-auto border border-slate-200 p-2 rounded bg-gray-50">
+            </ul>
+        </div>
+
+    </div>
+    </section>
+
+    
+
+    <script>
+        const display = document.getElementById('display');
+        const history = document.getElementById('history');
+
+        function tekan(nilai) {
+            if (display.value === '0') {
+                display.value = nilai;
+            } else {
+                display.value += nilai;
+            }
+        }
+
+        function hapus() {
+            display.value = '0';
+        }
+
+        function backspace() {
+            display.value = display.value.slice(0, -1);
+            if (display.value === '') display.value = '0';
+        }
+
+        function hitung() {
+            try {
+                const ekspresi = display.value;
+
+                // pecah operator
+                const operator = ekspresi.match(/[+\-*/]/)[0];
+                const [a, b] = ekspresi.split(operator);
+
+                // biner ke desimal
+                const x = parseInt(a, 2);
+                const y = parseInt(b, 2);
+
+                let hasil;
+                if (operator === '+') hasil = x + y;
+                if (operator === '-') hasil = x - y;
+                if (operator === '*') hasil = x * y;
+                if (operator === '/') hasil = Math.floor(x / y);
+
+                // desimal ke biner
+                const hasilBiner = hasil.toString(2);
+
+                const item = document.createElement('li');
+                item.textContent = `${ekspresi} = ${hasilBiner}`;
+                history.prepend(item);
+
+                display.value = hasilBiner;
+            } catch {
+                display.value = 'Error';
+            }
+        }
+    </script>
+
+</body>
+
+</html>

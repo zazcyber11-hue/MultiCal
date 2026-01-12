@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Kalkulator Basis Desimal</title>
+</head>
+
+<body>
+    <header class="p-4 w-full shadow-sm bg-white top-0 justify-between flex">
+        <h1 class="font-bold text-xl bg-gradient-to-l from-orange-500 from-43% to-black bg-clip-text text-transparent">Multi<span class="text-orange-500">Cal</span></h1>
+        <a href="hitung.html" class="text-slate-500 text-sm hover:scale-110 hover:text-orange-500 transition"><< Kembali</a>
+    </header>
+
+    <section  class="bg-gray-100 flex items-center justify-center min-h-screen">
+        <div class="bg-white shadow-lg p-6 rounded-xl w-full max-w-md">
+        <h1 class="text-center font-medium text-lg mb-4">Kalkulator Basis Desimal</h1>
+
+        <input id="display" type="text" disabled value="0"
+            class="w-full mb-3 p-2 text-right text-xl border border-slate-300 rounded-lg bg-slate-50" />
+
+        <div class="grid grid-cols-2 gap-2 mb-2">
+            <button onclick="hapus()" class="border border-slate-100 bg-slate-50 text-orange-500 cursor-pointer">C</button>
+            <button onclick="backspace()" class="border border-slate-100 bg-slate-50 text-orange-500 cursor-pointer">⌫</button>
+        </div>
+
+        <div class="grid grid-cols-4 gap-2 mb-2">
+            <button onclick="tekan('7')" class=" cursor-pointer border border-slate-100 bg-slate-50">7</button>
+            <button onclick="tekan('8')" class=" cursor-pointer border border-slate-100 bg-slate-50">8</button>
+            <button onclick="tekan('9')" class=" cursor-pointer border border-slate-100 bg-slate-50">9</button>
+            <button onclick="tekan('/')" class=" cursor-pointer border border-slate-100 bg-slate-50 text-orange-500">÷</button>
+
+            <button onclick="tekan('4')" class=" cursor-pointer border border-slate-100 bg-slate-50">4</button>
+            <button onclick="tekan('5')" class=" cursor-pointer border border-slate-100 bg-slate-50">5</button>
+            <button onclick="tekan('6')" class=" cursor-pointer border border-slate-100 bg-slate-50">6</button>
+            <button onclick="tekan('*')" class=" cursor-pointer border border-slate-100 bg-slate-50 text-orange-500">x</button>
+
+            <button onclick="tekan('1')" class=" cursor-pointer border border-slate-100 bg-slate-50">1</button>
+            <button onclick="tekan('2')" class=" cursor-pointer border border-slate-100 bg-slate-50">2</button>
+            <button onclick="tekan('3')" class=" cursor-pointer border border-slate-100 bg-slate-50">3</button>
+            <button onclick="tekan('-')" class=" cursor-pointer border border-slate-100 bg-slate-50 text-orange-500">-</button>
+
+            <button onclick="tekan(',')" class=" cursor-pointer border border-slate-100 bg-slate-50">,</button>
+            <button onclick="tekan('0')" class=" cursor-pointer border border-slate-100 bg-slate-50">0</button>
+            <button onclick="tekan('.')" class=" cursor-pointer border border-slate-100 bg-slate-50">.</button>
+            <button onclick="tekan('+')" class=" cursor-pointer border border-slate-100 bg-slate-50 text-orange-500">+</button>
+        </div>
+
+        <div class="grid grid-cols-1">
+            <button onclick="hitung()" class=" cursor-pointer border border-slate-100 bg-slate-50 text-orange-500">=</button>
+        </div>
+
+        <div class="mt-4">
+            <h2 class="text-sm font-medium mb-1">History</h2>
+            <ul id="history" class="text-sm max-h-24 overflow-y-auto border border-slate-200 p-2 rounded bg-gray-50">
+            </ul>
+        </div>
+
+    </div>
+
+    </section>
+
+    
+    <script>
+        const display = document.getElementById('display');
+        const history = document.getElementById('history');
+
+        function tekan(nilai) {
+            if (display.value === '0') {
+                display.value = nilai;
+            } else {
+                display.value += nilai;
+            }
+        }
+
+        function hapus() {
+            display.value = '0';
+        }
+
+        function backspace() {
+            display.value = display.value.slice(0, -1);
+            if (display.value === '') display.value = '0';
+        }
+
+        function hitung() {
+            try {
+                const ekspresi = display.value;
+                const hasil = eval(ekspresi);
+
+                const item = document.createElement('li');
+                item.textContent = `${ekspresi} = ${hasil}`;
+                history.prepend(item);
+
+                display.value = hasil;
+            } catch {
+                display.value = 'Error';
+            }
+        }
+    </script>
+
+</body>
+
+</html>
